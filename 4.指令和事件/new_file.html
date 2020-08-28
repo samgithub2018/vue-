@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<p v-if="show">显示这里的字体</p>
+			<a v-bind:href="url">这里跳转到百度</a>
+			<img v-bind:src="imgUrl" />
+			<button v-on:click="handleShow">显示文字</button>
+			<button v-on:click="handleToggle">切换</button>
+		</div>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/jscript">
+			var app = new Vue({
+				el:'#app',
+				data:{
+					show:false,
+					url:'https://www.baidu.com',
+					imgUrl:'https://www.baidu.com/img/dong_748276a2c34ca7e8036c0b3dbd513415.gif'
+				},
+				methods:{
+					handleShow: function(){
+						this.show= true;
+					},
+					handleToggle:function(){
+						this.show= !this.show;
+					}
+				}
+			})
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+		 crossorigin="anonymous">
+	</head>
+	<body>
+		<div id="app">
+			<p>数字：{{num}}</p>
+			<button type="button" class="btn btn-primary" @click="num++">加加</button>
+			<button type="button" class="btn btn-primary" @click="numJJ">加加</button>
+		</div>
+		<script>
+			var app = new Vue({
+				el:'#app',
+				data:{
+					num:0
+				},
+				methods:{
+					numJJ:function(){
+						this.num++;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

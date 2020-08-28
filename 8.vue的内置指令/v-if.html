@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+		 crossorigin="anonymous">
+	</head>
+	<body>
+		<div id="app">
+			<p v-if="aaa===1" id="a">显示aaa===1</p>
+			<p v-else-if="aaa===2" id="b">显示aaa===2</p>
+			<p v-else id="c">显示aaa===3</p>
+			<hr />
+			<label class="lead"> 测试原地复用 需要输入内容测试</label>
+			<input type="text" class="form-control" placeholder="请输入姓名"  v-if="aaa===1" />
+			<input type="text" class="form-control" placeholder="请输入邮箱"  v-else-if="aaa===2"/>
+			<hr />
+			<label class="lead"> 重新渲染 需要输入内容测试</label>
+			<input type="text" class="form-control" placeholder="请输入姓名"  v-if="aaa===1" :key="1" />
+			<input type="text" class="form-control" placeholder="请输入邮箱"  v-else-if="aaa===2" :key="2"/>
+			<hr />
+			<p v-show="bbb">这是一段测试v-show</p>
+			<hr />
+			<template>
+				<p>这是一个p标签，外面没有生成template元素</p>
+				<p>这是一个p标签，外面没有生成template元素</p>
+			</template>
+			<hr />
+
+			<button type="button" class="btn btn-danger" @click="catState">切换和销毁元素</button>
+			<button type="button" class="btn btn-danger" @click="testShow">测试-v-show</button>
+		</div>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: '#app',
+				data: {
+					aaa: 1,
+					bbb: true
+				},
+				methods: {
+					catState: function() {
+						this.aaa += 1;
+					},
+					testShow: function() {
+						this.bbb = !this.bbb;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+		 crossorigin="anonymous">
+	</head>
+	<body>
+		<div id="app">
+			<hr />
+			<p v-for="book in bookList" class="font-italic">书名：{{book.name}},价格：{{book.price}}</p>
+			<hr />
+			<p class="text-decoration-none" v-for="(value,key,index) in userList">{{index}}-{{key}}-{{value}}</p>
+			<hr />
+		</div>
+		<script>
+			var app = new Vue({
+				el: "#app",
+				data: {
+					bookList: [{
+							name: 'C#高级教程',
+							price: 21
+						},
+						{
+							name: 'C#架构教程',
+							price: 19
+						}
+					],
+					userList: [{
+						name: 'sam',
+						age: 20,
+						gender: 'man'
+					}, {
+						name: 'joh',
+						age: 45,
+						gender: 'woman'
+					}]
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<script src="../js/vue.min.js"></script>
+
+	<body>
+		<div id="app">
+			<span>message:{{mes}}</span>
+			<p>展示文本:{{rowhtml}}</p>
+			<p>展示html:<span v-html='rowhtml'></span></p>
+			<p>简单运算：{{number/10}}</p>
+			<p>三元运算：{{isOk?"真":"假"}}</p>
+		</div>
+
+	</body>
+
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: {
+				mes: 'hello world',
+				rowhtml: '<span style="color:red">這是一個html文本</span>',
+				number:150,
+				isOk:false
+			}
+		})
+	</script>
+
+</html>

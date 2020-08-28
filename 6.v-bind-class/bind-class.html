@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+		 crossorigin="anonymous">
+
+	</head>
+	<body>
+		<div id="app">
+			<button type="button" :class="{'btn btn-primary':isBootsrtapBut,'btn btn-primary btn-lg':isBootsrtapButLg}">按钮</button>
+			<hr />
+			<p :class="[isCutStyle?'text-primary':'text-warning']">样式切换字体</p>
+
+			<button type="button" @click="cutStyle">切换样式</button>
+		</div>
+		<script type="text/javascript">
+			var app = new Vue({
+				el: '#app',
+				data: {
+					isBootsrtapBut: false,
+					isBootsrtapButLg: false,
+					isCutStyle: false
+				},
+				methods: {
+					cutStyle: function() {
+						this.isCutStyle = !this.isCutStyle
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
