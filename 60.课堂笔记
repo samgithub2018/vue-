@@ -1,0 +1,2 @@
+1. 添加Swashbuckle ，api程序集生成时需要额外生成xml文档文件，然后打开 https://localhost:44384/swagger/ui/index#/Default（default是控制器）
+
