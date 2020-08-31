@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="./css/base.css" />
+		<link rel="stylesheet" href="./css/cart.css" />
+
+	</head>
+	<body>
+		<div id="app">
+			<!-- 头部信息 -->
+			<div class="site-header">
+				<div class="container">
+					<div class="header-logo">
+						<img src="img/logo.png" style="width: 55px;height: 55px;" />
+					</div>
+					<div class="header-title">
+						<h2>我的购物车</h2>
+						<p>温馨提示：产品是否购买成功，最终已下单为准，清尽快结算</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="page-main">
+				<div class="container">
+
+					<!-- 购物车内容 -->
+					<div class="cart-goods-list">
+
+						<!-- 商品头部内容 -->
+						<div class="list-head clearfix">
+
+							<!-- 全部选中 -->
+							<div class="col col-check">
+								<input type="checkbox" id="checkAll" @click="checkAll($event)" />
+								<label for="checkAll" class="iconfont icon-checkbox"> &#x221a;</label>
+							</div>
+							<!-- 商品表头 -->
+							<div class="col col-img">&nbsp;</div>
+							<div class="col col-name">商品名称</div>
+							<div class="col col-price"> 价格 </div>
+							<div class="col col-num"> 数量 </div>
+							<div class="col col-total"> 小计 </div>
+							<div class="col col-action"> 操作 </div>
+						</div>
+
+						<!-- 商品列表 -->
+						<div class="item-body">
+							<div class="item-table">
+								<div class="item-box">
+									<div class="item-row clearfix" v-for="(item,index) in cartList" :key="index">
+										<div class="col col-check">
+											<input type="checkbox" :id="item.itemId" :value="item.itemId" v-model="checkedList">
+											<label :for="item.itemId" class="iconfont icon-checkbox">&#x221a;</label>
+										</div>
+										<div class="col col-img">
+											<img :src="item.pictureUrl" alt="">
+										</div>
+										<div class="col col-name">
+											{{item.itemTitle}}
+										</div>
+										<div class="col col-price">
+											{{item.unitPrice}}元
+										</div>
+										<div class="col col-num">
+											<div class="change-goods-num clearfix">
+												<a href="javascript:;" @click="subCount(item.itemId)" :class="{'btn-disabled':item.count===1}">
+													<i class="iconfont">&#xe60b;</i>
+												</a>
+												<!--v-model绑定为number-->
+												<input type="text" v-model.number="item.count" class="goods-num">
+												<a href="javascript:;" @click="addCount(item.itemId)">
+													<i class="iconfont">&#xe609;</i>
+												</a>
+											</div>
+										</div>
+
+										<div class="col col-total">
+											{{item.count*item.unitPrice}}元
+										</div>
+										<!-- 删除商品 -->
+										<div class="col col-action">
+											<a href="javastript:void(0)" class="del" @click="removeItem(item.itemId)">
+												<i class="iconfont">&#xe602;</i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+
+					<!-- 购物车结算 -->
+					<div class="cart-bar clearfix" id="j_cartBar">
+						<div class="section-left">
+							<a href="#" class="back-shopping J_goShoping">继续购物</a>
+							<span class="cart-total">
+								共<i>{{totalItemCount}}</i>件商品，已选择<i>{{totalCheckedItemCount}}</i>件
+							</span>
+						</div>
+
+						<span class="total-price">合计：<em>{{totalCheckItemPrice}}</em>元</span>
+						<a href="javascript:void(0)" class="btn btn-a" :class="[checkedList.length===0?'btn-disabled':'btn-primary']"
+						 @click="submitOrder">去结算</a>
+						<div class="no-select-tip" v-if="checkedList.length===0">
+							请勾选需要结算的商品
+							<i class="arrow arrow-a"></i>
+							<i class="arrow arrow-b"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<script src="./js/axios.js"></script>
+		<script src="./js/vue.js"></script>
+		<script type="text/javascript">
+			//数据访问接口
+			var instance = axios.create({
+				baseURL: 'http://192.168.1.105:8011/api/', //访问地址前缀
+				timeout: 30000 //请求时间
+			})
+
+			var app = new Vue({
+				el: '#app',
+				data: {
+					//购物车商品
+					cartList: [],
+					//选中的商品
+					checkedList: []
+				},
+				computed: {
+					totalItemCount() {
+						return this.cartList.length;
+					},
+					totalCheckedItemCount() {
+						return this.checkedList.length;
+					},
+					totalCheckItemPrice() {
+						return this.checkedList.reduce((sum, checkItem) => {
+							for (i = 0; i < this.cartList.length; i++) {
+								if (this.cartList[i].itemId === checkItem) {
+									sum += this.cartList[i].unitPrice * this.cartList[i].count;
+								}
+							}
+							return sum;
+						}, 0)
+					}
+				},
+				created() {
+
+					//购物车商品列表
+					instance.get('Cart/GetCartItemList')
+						.then((response) => {
+							this.cartList = response.data;
+						})
+					//获取选中的商品
+					instance.get('Cart/GetCheckedItem')
+						.watch((response) => {
+							this.checkedList = response.data;
+						})
+
+				},
+				methods: {
+					//选中和取消所有商品
+					checkAll: function(event) {
+						var check = event.target.checked;
+						this.checkedList = [];
+						if (check) {
+							for (i = 0; i < this.cartList.length; i++) {
+								this.checkedList.push(this.cartList[i].itemId)
+							}
+						}
+					},
+					removeItem: function(itemId) {
+						//从选中列表删除
+						this.checkedList.filter((item, index) => {
+							if (item === itemId) {
+								this.cartList.slice(index, 1);
+							}
+						})
+
+						this.cartList.filter((item, index) => {
+							if (item.itemId == itemId) {
+								this.cartList.splice(index, 1);
+							}
+						})
+					},
+					subCount(itemId) {
+						this.cartList.filter((item) => {
+							if (item.itemId == itemId) {
+								if (item.count > 1) {
+									item.count--;
+								}
+
+							}
+						})
+					},
+					addCount(itemId) {
+						this.cartList.filter((item) => {
+							if (item.itemId == itemId) {
+								item.count++;
+							}
+						})
+					},
+					submitOrder() {
+						var checkItemList=[];
+						this.checkedList.forEach((itemId) => {
+							var em = this.cartList.filter((item) => item.itemId === itemId)[0];
+							checkItemList.push(em);
+						})
+
+						instance.post('cart/SubmitOrder', checkItemList)
+							.then((response) => {
+								if (response.data === 14820) {
+									alert("订单提交成功")
+								}
+							})
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
