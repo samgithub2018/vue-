@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.min.js"></script>
+	</head>
+	<body>
+		<div>
+			<div id="app1">
+				<part-component></part-component>
+			</div>
+			<div id="app2">
+				<part-component></part-component>
+			</div>
+		</div>
+
+		<script>
+			// Vue.component("part-component", {
+			// 	template: '<div>这是一个全局组件</div>'
+			// })
+			// var app = new Vue({
+			// 	el: '#app1'
+			// })
+
+			Vue.component("part-component", {
+				template: '<div>这是一个全局组件</div>'
+			})
+
+			var app1 = new Vue({
+				el: '#app1'
+			})
+			var app2 = new Vue({
+				el: '#app2'
+			})
+		</script>
+	</body>
+</html>

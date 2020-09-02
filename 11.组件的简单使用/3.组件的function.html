@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.min.js"></script>
+	</head>
+	<body>
+		<div>
+			<div id="app">
+				<part-component></part-component>
+			</div>
+			
+		</div>
+
+		<script>
+			Vue.component('part-component', {
+				template: '<div>{{mesaaa}}</div>',
+				data:function(){
+					return {
+						mesaaa:'这是一个通过function返回的值的组件'
+					}
+				}
+			})
+
+			var app1 = new Vue({
+				el: '#app'
+			})
+		</script>
+	</body>
+</html>

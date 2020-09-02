@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			<!-- 这里的warningText需要转换一下，因为HTML特性是不区分大小写，如果出现驼峰命名法则用短杠代替 -->
+			<my-compoent warning-text='这是从父组件传递过来的消息'></my-compoent>
+		</div>
+		
+		<script >
+			
+			Vue.component('my-compoent',{
+				template:'<h2>{{warningText}}</h2>',
+				props:['warningText']
+			})
+			
+			var app = new Vue({
+				el:'#app',
+				data:{
+					
+				}
+			})
+			
+		</script>		
+	</body>
+</html>

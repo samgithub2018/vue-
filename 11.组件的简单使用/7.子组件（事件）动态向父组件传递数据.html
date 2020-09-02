@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/vue.min.js"></script>
+		<!-- 这一小节，很神奇，具体实现有点绕 -->
+
+	</head>
+	<body>
+		<div id="app">
+			<h2>当前数字是{{num}}</h2>
+			<my-compoent @increase='handleGetNum' @reduce='handleGetNum'>
+			</my-compoent>
+		</div>
+
+		<script>
+			Vue.component('my-compoent', {
+				template: '<div><button type="button" @click="handleIncrease" >+1</button><hr/><button type="button" @click="handleeReduce" >-1</button></div>',
+				data() {
+					return {
+						counter: 0
+					}
+				},
+				methods: {
+					handleIncrease() {
+						this.counter++;
+						this.$emit('increase', this.counter);
+					},
+					handleeReduce() {
+						this.counter--;
+						this.$emit('reduce', this.counter);
+					}
+				}
+			})
+
+			var app = new Vue({
+				el: '#app',
+				data: {
+					num: 0
+				},
+				methods: {
+					handleGetNum(curvalue) {
+						this.num = curvalue;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
